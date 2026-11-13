@@ -1,0 +1,117 @@
+MANOVA HEALTH CONNECT — VERCEL SETUP GUIDE
+==========================================
+This version is built for Vercel. It has three parts:
+  - The website pages (HTML/CSS/JS)
+  - Vercel Functions in /api: forms, patient login, admin panel
+  - Two free services you connect once:
+      * Upstash Redis (database, added inside Vercel): stores accounts and submissions
+      * Resend (email): sends form emails to info@manovahealthconnect.com
+
+Takes about 30 minutes the first time. Do the steps in order.
+
+
+STEP 1 — Put the new files in your project
+------------------------------------------
+A) If your current Vercel site is connected to GitHub (most common):
+   1. Open your repository on github.com.
+   2. Delete the old website files (or create a new repository).
+   3. Unzip manova-website-vercel.zip on your computer.
+   4. On GitHub click "Add file" > "Upload files". Drag in ALL the unzipped files and folders
+      (index.html, api, assets, vercel.json, package.json ...). Do not upload the zip itself.
+   5. Click "Commit changes". Vercel redeploys automatically.
+
+B) Starting fresh:
+   1. Create a free GitHub account and a new repository, then upload the files as above.
+   2. Go to vercel.com > Add New > Project > Import that repository.
+   3. Framework Preset: "Other". Leave the build settings empty. Click Deploy.
+
+Check: the vercel.json and package.json files and the api folder must sit at the TOP level of the
+repository, next to index.html, not inside another folder.
+
+
+STEP 2 — Connect the database (Upstash Redis)
+---------------------------------------------
+1. Vercel dashboard > your project > "Storage" tab.
+2. Create Database > choose "Upstash" > "Upstash for Redis" (Redis) > the free plan.
+   Pick a region close to India (e.g. Mumbai / Singapore) if offered.
+3. Connect it to this project (all environments).
+   Vercel adds KV_REST_API_URL and KV_REST_API_TOKEN to your project automatically.
+
+
+STEP 3 — Set up email (Resend)
+------------------------------
+1. Sign up at resend.com USING info@manovahealthconnect.com as your login email.
+   (Until your domain is verified, Resend can only deliver to the account's own email,
+    so this makes the form notifications work right away.)
+2. Resend > API Keys > Create API key ("Sending access"). Copy it (it starts with re_).
+   You will only see it once.
+3. Verify your domain so patients also receive emails (confirmations, password resets,
+   status updates):
+   a. Resend > Domains > Add Domain > enter:  mail.manovahealthconnect.com
+      (a sub-domain keeps your existing info@ mailbox completely untouched)
+   b. Resend shows a few DNS records (TXT and MX). Add each one EXACTLY at the place
+      that manages your domain's DNS:
+        - Domain at GoDaddy with GoDaddy DNS: GoDaddy > My Products > Domain > DNS > Add New Record
+        - If you moved nameservers to Vercel:  Vercel > Domains > manovahealthconnect.com > DNS Records
+      In GoDaddy, the "Name/Host" field takes only the part BEFORE manovahealthconnect.com
+      (e.g. "send.mail" or "resend._domainkey.mail").
+   c. Back in Resend click "Verify". It can take from a few minutes up to a few hours.
+
+
+STEP 4 — Add your settings (Environment Variables)
+--------------------------------------------------
+Vercel > your project > Settings > Environment Variables. Add each of these
+(tick Production, Preview and Development):
+
+  ADMIN_PASSWORD   Your admin panel password (12+ characters, keep it private)
+  SESSION_SECRET   Any long random text, 32+ characters (a password generator works).
+                   Used to secure logins. Never share it, and don't change it later
+                   (changing it signs everyone out).
+  RESEND_API_KEY   The re_... key from Step 3
+  FROM_EMAIL       Before domain verification:  Manova Health Connect <onboarding@resend.dev>
+                   After it shows "Verified":     Manova Health Connect <noreply@mail.manovahealthconnect.com>
+
+Optional (defaults are already correct):
+  NOTIFY_EMAIL     info@manovahealthconnect.com   (where form submissions are sent)
+  SITE_URL         https://manovahealthconnect.com (used in password-reset links)
+
+IMPORTANT: after adding or changing variables, redeploy:
+  Deployments tab > the latest deployment > "..." menu > Redeploy.
+
+
+STEP 5 — Domain
+---------------
+If manovahealthconnect.com already pointed to your old Vercel project and you replaced the
+files in that same project, nothing to do. If you made a NEW project:
+  Old project > Settings > Domains > remove manovahealthconnect.com (and www),
+  then New project > Settings > Domains > add them. Vercel shows any DNS change needed.
+
+
+STEP 6 — Test everything (5 minutes)
+------------------------------------
+1. Open https://manovahealthconnect.com and send the Contact form.
+   -> An email should arrive at info@manovahealthconnect.com (check spam the first time).
+2. Click "Sign in" > "Create account" and register with a personal email.
+   -> You land in the dashboard. Add a family member, then book an OPD request.
+3. Open https://manovahealthconnect.com/admin and sign in with ADMIN_PASSWORD.
+   -> You see the submissions. Set one to "Confirmed" with a note.
+   -> The patient dashboard (My care) shows the new status. Once your domain is verified,
+      the patient also gets an email.
+
+If something fails:
+  - Form says "The database is not connected yet": redo Step 2, then redeploy.
+  - Message mentions SESSION_SECRET: add it (Step 4), then redeploy.
+  - No email: check RESEND_API_KEY and FROM_EMAIL, then look at Resend > Emails / Logs for the
+    reason. Submissions are always saved in /admin, so nothing is lost.
+  - Vercel > project > Logs shows any error message from the functions.
+
+
+DAY-TO-DAY
+----------
+- Admin panel:  https://manovahealthconnect.com/admin
+  View and search all submissions and patients, update statuses (emails the patient),
+  and export everything to Excel (CSV).
+- Change text: edit index.html on GitHub (pencil icon) > Commit. The site updates in about a minute.
+- Change your photo: upload a new assets/img/founder.jpg (same name) on GitHub.
+- Backups: use "Export CSV" in /admin regularly. Your data is also in Upstash
+  (Vercel > Storage > your database > Open in Upstash).

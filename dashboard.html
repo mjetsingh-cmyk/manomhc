@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Health · Manova Health Connect</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>@media print{.side,.mobile-top,.topbar,.no-print{display:none!important}.dash{display:block}.view{display:none!important}#v-emergency{display:block!important}#v-emergency .panel:not(.print-me){display:none}}</style>
+</head>
+<body style="background:var(--bg)">
+<div class="mobile-top"><a href="index.html" class="logo"><img class="logo-mark" src="assets/img/logo.svg" alt=""><span>MANOVA</span></a><button class="menu-btn" id="side-btn" aria-label="Menu"><span></span></button></div>
+<div class="dash">
+  <aside class="side" id="side">
+    <a href="index.html" class="logo"><img class="logo-mark" src="assets/img/logo.svg" alt=""><span>MANOVA<small>HEALTH CONNECT</small></span></a>
+    <a class="nl on" href="#overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg>Home</a>
+    <a class="nl" href="#book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 14v4M10 16h4"/></svg>Book care</a>
+    <a class="nl" href="#mycare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h9"/></svg>My care</a>
+    <a class="nl" href="#profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Health profile</a>
+    <a class="nl" href="#family"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0112 0M14 20a4.5 4.5 0 017 0"/></svg>Family hub</a>
+    <a class="nl" href="#emergency"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>Emergency kit</a>
+    <a class="nl" href="#settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>Settings & privacy</a>
+    <a class="nl sos-link" href="tel:112">🆘 Emergency: call 112</a>
+  </aside>
+
+  <main class="main" id="app" hidden>
+    <div class="topbar">
+      <div><h1 id="greet">Hello</h1><p id="today"></p></div>
+      <div style="display:flex;gap:8px"><a href="index.html" class="btn btn-ghost btn-sm">Website</a><button class="btn btn-primary btn-sm" id="logout">Log out</button></div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section class="view on" id="v-overview">
+      <div class="welcome">
+        <div><h2 id="w-title">Welcome to Manova</h2><p id="w-sub">Complete your health profile for faster bookings and personalised care.</p></div>
+        <div class="progress"><small>Profile <b id="pct">0</b>% complete</small><div class="track"><i id="pct-bar" style="width:0"></i></div><a href="#profile" class="btn btn-light btn-sm" style="margin-top:12px">Complete profile</a></div>
+      </div>
+      <div class="grid-4" style="margin-bottom:20px" id="qa"></div>
+      <div class="grid-2">
+        <div class="panel"><h2>Active care</h2><p class="muted">Your open requests and their status.</p><div class="rq-list" id="active"></div></div>
+        <div class="panel"><h2>Your emergency snapshot</h2><p class="muted">What doctors see first in an emergency.</p><div id="snap"></div><a href="#emergency" class="btn btn-ghost btn-sm" style="margin-top:16px">Open emergency kit</a></div>
+      </div>
+    </section>
+
+    <!-- BOOK -->
+    <section class="view" id="v-book">
+      <div class="panel">
+        <h2>Book care</h2><p class="muted">Choose a service. Every request goes to our care team and appears in <a href="#mycare" class="link">My care</a>, where you can track its status.</p>
+        <div class="svc-tabs" id="svc-tabs"></div>
+        <div id="svc-desc" style="color:var(--muted);margin-bottom:20px"></div>
+        <div id="svc-form" data-form-wrap></div>
+      </div>
+    </section>
+
+    <!-- MY CARE -->
+    <section class="view" id="v-mycare">
+      <div class="panel"><h2>My care</h2><p class="muted">All your requests. Status updates are also emailed to you.</p>
+        <div class="chips no-print" id="care-filter" style="margin-bottom:18px"><button class="chip on" data-f="all">All</button><button class="chip" data-f="open">Open</button><button class="chip" data-f="done">Completed / cancelled</button></div>
+        <div class="rq-list" id="all-req"></div></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="view" id="v-profile">
+      <form id="f-profile" novalidate>
+        <div class="panel"><h2>Personal details</h2><p class="muted">Used for bookings and hospital identification.</p>
+          <div class="form">
+            <div class="field"><label>Full name</label><input name="name" data-basic required></div>
+            <div class="field"><label>Mobile number</label><input name="phone" type="tel" data-basic></div>
+            <div class="field"><label>Date of birth</label><input name="dob" type="date"></div>
+            <div class="field"><label>Gender</label><select name="gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+            <div class="field"><label>Blood group</label><select name="blood_group"><option value="">Select…</option></select></div>
+            <div class="field"><label>City / pincode</label><input name="city"></div>
+            <div class="field"><label>Height (cm)</label><input name="height" type="number" min="30" max="250"></div>
+            <div class="field"><label>Weight (kg)</label><input name="weight" type="number" min="1" max="350"><span class="bmi" id="bmi" hidden></span></div>
+            <div class="field full"><label>ABHA ID (Ayushman Bharat Health Account)</label><input name="abha" placeholder="Optional, e.g. 12-3456-7890-1234"></div>
+          </div>
+        </div>
+        <div class="panel"><h2>Medical basics</h2><p class="muted">Critical in emergencies and shared only with care providers you book with.</p>
+          <div class="form">
+            <div class="field full"><label>Chronic conditions</label><div class="chips" id="conds"></div></div>
+            <div class="field full"><label>Allergies</label><input name="allergies" placeholder="e.g. Penicillin, Sulfa, Latex, Peanuts"></div>
+            <div class="field full"><label>Current medications</label><textarea name="medications" rows="3" placeholder="Name, dose, frequency"></textarea></div>
+            <div class="field full"><label>Past surgeries</label><textarea name="surgeries" rows="2" placeholder="Procedure and year"></textarea></div>
+          </div>
+        </div>
+        <div class="panel"><h2>Insurance</h2><p class="muted">Helps us find cashless hospitals and prepare pre-authorisation.</p>
+          <div class="form">
+            <div class="field"><label>Insurance provider / scheme</label><input name="insurer" list="insurers" placeholder="Start typing…"><datalist id="insurers"><option>Star Health</option><option>HDFC ERGO</option><option>ICICI Lombard</option><option>Bajaj Allianz</option><option>Care Health</option><option>Niva Bupa</option><option>New India Assurance</option><option>Ayushman Bharat (PM-JAY)</option><option>CGHS</option><option>ECHS</option><option>ESIC</option></datalist></div>
+            <div class="field"><label>Policy / card number</label><input name="policy_no"></div>
+            <div class="field"><label>Valid from</label><input name="policy_from" type="date"></div>
+            <div class="field"><label>Valid until</label><input name="policy_to" type="date"></div>
+          </div>
+        </div>
+        <div class="form-msg" role="alert" style="margin-bottom:12px"></div>
+        <button class="btn btn-primary" type="submit">Save health profile</button>
+      </form>
+    </section>
+
+    <!-- FAMILY -->
+    <section class="view" id="v-family">
+      <div class="grid-2">
+        <div class="panel"><h2>Family members</h2><p class="muted">Book care for anyone in your family from your own account.</p><div id="fam-list"></div></div>
+        <div class="panel"><h2>Add a family member</h2><p class="muted">Up to 12 members.</p>
+          <form class="form" id="f-fam" novalidate>
+            <div class="field full"><label>Full name *</label><input name="name" required></div>
+            <div class="field"><label>Relationship *</label><select name="relation" required><option value="">Select…</option><option>Spouse</option><option>Father</option><option>Mother</option><option>Son</option><option>Daughter</option><option>Brother</option><option>Sister</option><option>Grandparent</option><option>Other</option></select></div>
+            <div class="field"><label>Date of birth</label><input name="dob" type="date"></div>
+            <div class="field"><label>Gender</label><select name="gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+            <div class="field"><label>Blood group</label><select name="blood_group" class="bg-sel"><option value="">Select…</option></select></div>
+            <div class="field full"><label>Conditions / allergies</label><input name="notes"></div>
+            <div class="form-msg" role="alert"></div>
+            <div class="full"><button class="btn btn-teal" type="submit">Add member</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMERGENCY -->
+    <section class="view" id="v-emergency">
+      <div class="grid-2">
+        <div>
+          <div class="panel print-me"><h2>Emergency profile card</h2><p class="muted no-print">Print it or keep a screenshot on your phone's lock screen.</p>
+            <div class="ecard" id="ecard"></div>
+            <button class="btn btn-ghost btn-sm no-print" style="margin-top:16px" onclick="print()">🖨️ Print card</button>
+          </div>
+          <div class="panel"><h2>Emergency numbers (India)</h2><p class="muted">Tap to call.</p>
+            <div class="sos" style="--x:0">
+              <a href="tel:112" style="background:#FFF1EC;border-color:#FFD9CC;color:var(--ink)"><b style="color:var(--coral-d)">112</b><span><strong style="color:var(--ink)">National emergency</strong>Police, fire, medical</span></a>
+              <a href="tel:108" style="background:#FFF1EC;border-color:#FFD9CC;color:var(--ink)"><b style="color:var(--coral-d)">108</b><span><strong style="color:var(--ink)">Ambulance</strong>Free emergency ambulance</span></a>
+              <a href="tel:14416" style="background:var(--mint);border-color:var(--mint-2);color:var(--ink)"><b style="color:var(--teal-d)">14416</b><span><strong style="color:var(--ink)">Tele-MANAS</strong>Mental-health support, 24×7</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="panel"><h2>Emergency contacts</h2><p class="muted">Up to 5 people. The primary contact is shown on your card.</p>
+          <div id="con-list"></div>
+          <form class="form" id="f-con" novalidate style="margin-top:16px">
+            <div class="field"><label>Name *</label><input name="name" required></div>
+            <div class="field"><label>Relationship *</label><select name="relation" required><option value="">Select…</option><option>Spouse</option><option>Parent</option><option>Sibling</option><option>Child</option><option>Friend</option><option>Other</option></select></div>
+            <div class="field"><label>Phone *</label><input name="phone" type="tel" required></div>
+            <div class="field" style="justify-content:flex-end"><label class="check"><input type="checkbox" name="primary"> Primary contact</label></div>
+            <div class="form-msg" role="alert"></div>
+            <div class="full"><button class="btn btn-teal" type="submit">Add contact</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="v-settings">
+      <div class="grid-2">
+        <div class="panel"><h2>Preferences</h2><p class="muted">How we communicate with you.</p>
+          <form id="f-prefs" class="form" style="grid-template-columns:1fr">
+            <label class="check"><input type="checkbox" name="email_updates"> Email me status updates on my requests</label>
+            <label class="check"><input type="checkbox" name="health_tips"> Send me health tips & Manova news</label>
+            <div class="field"><label>Preferred language</label><select name="language"><option>English</option><option>Hindi</option><option>Punjabi</option><option>Bengali</option><option>Marathi</option><option>Tamil</option><option>Telugu</option><option>Gujarati</option></select></div>
+            <div><button class="btn btn-primary btn-sm" type="submit">Save preferences</button></div>
+          </form>
+        </div>
+        <div class="panel"><h2>Change password</h2><p class="muted">Use at least 8 characters.</p>
+          <form id="f-pw" class="form" style="grid-template-columns:1fr" novalidate>
+            <div class="field"><label>Current password</label><input type="password" name="current" autocomplete="current-password" required></div>
+            <div class="field"><label>New password</label><input type="password" name="new" autocomplete="new-password" minlength="8" required></div>
+            <div class="form-msg" role="alert"></div>
+            <div><button class="btn btn-primary btn-sm" type="submit">Update password</button></div>
+          </form>
+        </div>
+        <div class="panel"><h2>Privacy & trust</h2><p class="muted">Your data belongs to you.</p>
+          <ul class="perks" style="margin-top:0"><li>Encrypted connection (HTTPS) on every page</li><li>Shared only with providers you book with</li><li>Never sold to advertisers</li></ul>
+          <a class="btn btn-ghost btn-sm" style="margin-top:18px" href="api/auth?action=export">⬇️ Download my data</a>
+        </div>
+        <div class="panel" style="border-color:#F6C9BE"><h2>Delete account</h2><p class="muted">Permanently deletes your profile, family and emergency contacts.</p>
+          <form id="f-del" class="form" style="grid-template-columns:1fr" novalidate>
+            <div class="field"><label>Confirm with your password</label><input type="password" name="password" required></div>
+            <div class="form-msg" role="alert"></div>
+            <div><button class="btn btn-coral btn-sm" type="submit">Delete my account</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="assets/js/forms.js"></script>
+<script src="assets/js/portal.js"></script>
+</body>
+</html>

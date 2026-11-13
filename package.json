@@ -1,0 +1,6 @@
+{
+  "name": "manova-health-connect",
+  "private": true,
+  "description": "Manova Health Connect website (static pages + Vercel functions)",
+  "engines": { "node": ">=18" }
+}

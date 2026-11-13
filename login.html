@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in · Manova Health Connect</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="auth">
+  <aside class="auth-side">
+    <a href="index.html" class="logo"><img class="logo-mark" src="assets/img/logo.svg" alt=""><span>MANOVA<small style="color:var(--glow)">HEALTH CONNECT</small></span></a>
+    <div>
+      <h2>Your health, <span class="serif">all in one place.</span></h2>
+      <ul class="auth-list">
+        <li><i>🩺</i><div><b>Book & track care</b>OPD, home care, diagnostics, blood and second opinions</div></li>
+        <li><i>👨‍👩‍👧</i><div><b>Family health hub</b>Manage and book for parents, children and spouse</div></li>
+        <li><i>🆘</i><div><b>Emergency profile</b>Blood group, allergies and contacts ready when it matters</div></li>
+        <li><i>🔒</i><div><b>Private & in your control</b>Download or delete your data any time</div></li>
+      </ul>
+    </div>
+    <small style="color:#7FA7A1;position:relative">© Manova Health Connect</small>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <a href="index.html" class="link" style="font-size:14px">← Back to website</a>
+      <div style="height:22px"></div>
+      <div class="seg" role="tablist"><button class="on" data-mode="login">Sign in</button><button data-mode="register">Create account</button></div>
+
+      <!-- LOGIN -->
+      <section data-pane="login">
+        <h1>Welcome back</h1><p>Sign in to manage your care.</p>
+        <form class="form" id="f-login" novalidate>
+          <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label for="l-pass">Password</label><div class="pw-wrap"><input id="l-pass" type="password" name="password" autocomplete="current-password" required><button type="button" class="pw-toggle">Show</button></div></div>
+          <div style="text-align:right;margin-top:-6px"><a href="#" class="link" style="font-size:14px" data-mode-link="forgot">Forgot password?</a></div>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+      </section>
+
+      <!-- REGISTER -->
+      <section data-pane="register" hidden>
+        <h1>Create your account</h1><p>Free, and takes under a minute.</p>
+        <form class="form" id="f-register" novalidate>
+          <div class="field"><label for="r-name">Full name</label><input id="r-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="r-email">Email</label><input id="r-email" type="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label for="r-phone">Mobile number</label><input id="r-phone" type="tel" name="phone" autocomplete="tel" placeholder="+91"></div>
+          <div class="field"><label for="r-pass">Password</label><div class="pw-wrap"><input id="r-pass" type="password" name="password" autocomplete="new-password" minlength="8" required><button type="button" class="pw-toggle">Show</button></div><span class="hint">At least 8 characters</span></div>
+          <label class="check"><input type="checkbox" name="consent" required> I agree to the <a class="link" href="terms.html" target="_blank">Terms</a> and <a class="link" href="privacy.html" target="_blank">Privacy Policy</a>, and consent to Manova processing my health information to coordinate my care.</label>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-coral btn-block" type="submit">Create account</button>
+        </form>
+      </section>
+
+      <!-- FORGOT -->
+      <section data-pane="forgot" hidden>
+        <h1>Reset password</h1><p>Enter your email and we'll send you a reset link.</p>
+        <form class="form" id="f-forgot" novalidate>
+          <div class="field"><label for="fg-email">Email</label><input id="fg-email" type="email" name="email" required></div>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Send reset link</button>
+          <a href="#" class="link" style="font-size:14px;text-align:center" data-mode-link="login">← Back to sign in</a>
+        </form>
+      </section>
+    </div>
+  </main>
+</div>
+<script src="assets/js/forms.js"></script>
+<script>
+(function(){
+  const F = ManovaForms, $ = s => document.querySelector(s);
+  const go = new URLSearchParams(location.search).get('next') || 'dashboard.html';
+  const safeNext = /^[a-z0-9_\-]+\.html(#[a-z0-9_\-]*)?$/i.test(go) ? go : 'dashboard.html';
+  function mode(m){
+    document.querySelectorAll('[data-pane]').forEach(p => p.hidden = p.dataset.pane !== m);
+    document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+    document.querySelector('.seg').style.display = m === 'forgot' ? 'none' : '';
+  }
+  document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => mode(b.dataset.mode));
+  document.querySelectorAll('[data-mode-link]').forEach(a => a.onclick = e => { e.preventDefault(); mode(a.dataset.modeLink); });
+  if (new URLSearchParams(location.search).get('mode') === 'register') mode('register');
+  document.querySelectorAll('.pw-toggle').forEach(b => b.onclick = () => { const i = b.previousElementSibling; i.type = i.type === 'password' ? 'text' : 'password'; b.textContent = i.type === 'password' ? 'Show' : 'Hide'; });
+
+  F.api(F.apiBase() + 'auth?action=me').then(r => { if (r.user) location.replace(safeNext); }).catch(()=>{});
+
+  function handle(id, action, after){
+    const f = $(id), msg = f.querySelector('.form-msg');
+    f.addEventListener('submit', async e => {
+      e.preventDefault(); msg.className = 'form-msg';
+      const d = Object.fromEntries(new FormData(f)); f.querySelectorAll('input[type=checkbox]').forEach(c => d[c.name] = c.checked);
+      const btn = f.querySelector('[type=submit]'), t = btn.textContent; btn.disabled = true; btn.textContent = 'Please wait…';
+      try { const r = await F.api(F.apiBase() + 'auth?action=' + action, d); after(r, f, msg); }
+      catch(err){ msg.className = 'form-msg err'; msg.textContent = err.message; }
+      finally { btn.disabled = false; btn.textContent = t; }
+    });
+  }
+  handle('#f-login', 'login', () => location.href = safeNext);
+  handle('#f-register', 'register', () => location.href = 'dashboard.html?welcome=1');
+  handle('#f-forgot', 'forgot', (r, f, msg) => { msg.className = 'form-msg err'; msg.style.background = 'var(--mint)'; msg.style.color = 'var(--teal-d)'; msg.textContent = 'If an account exists for that email, a reset link is on its way. Check your inbox (and spam folder).'; f.reset(); });
+})();
+</script>
+</body>
+</html>

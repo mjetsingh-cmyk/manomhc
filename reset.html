@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Set a new password · Manova Health Connect</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="auth-main" style="min-height:100vh">
+  <div class="auth-card">
+    <a href="index.html" class="logo" style="margin-bottom:30px"><img class="logo-mark" src="assets/img/logo.svg" alt=""><span>MANOVA<small>HEALTH CONNECT</small></span></a>
+    <div class="form-wrap">
+      <h1>Set a new password</h1><p>Choose a password with at least 8 characters.</p>
+      <form class="form" id="f" novalidate>
+        <div class="field"><label for="p1">New password</label><input id="p1" type="password" name="password" autocomplete="new-password" minlength="8" required></div>
+        <div class="field"><label for="p2">Confirm password</label><input id="p2" type="password" autocomplete="new-password" required></div>
+        <div class="form-msg" role="alert"></div>
+        <button class="btn btn-primary btn-block" type="submit">Update password</button>
+      </form>
+      <div class="form-success"><div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></div><h4>Password updated</h4><p>You can now sign in with your new password.</p><a href="login.html" class="btn btn-primary" style="margin-top:18px">Sign in</a></div>
+    </div>
+  </div>
+</main>
+<script src="assets/js/forms.js"></script>
+<script>
+const f = document.getElementById('f'), msg = f.querySelector('.form-msg');
+const token = new URLSearchParams(location.search).get('token') || '';
+if (!token) { msg.className = 'form-msg err'; msg.textContent = 'This link is missing its reset code. Please use the link from your email, or request a new one.'; }
+f.addEventListener('submit', async e => {
+  e.preventDefault(); msg.className = 'form-msg';
+  if (f.p1.value.length < 8) { msg.className = 'form-msg err'; msg.textContent = 'Password must be at least 8 characters.'; return; }
+  if (f.p1.value !== f.p2.value) { msg.className = 'form-msg err'; msg.textContent = 'Passwords do not match.'; return; }
+  try { await ManovaForms.api(ManovaForms.apiBase() + 'auth?action=reset', { token, password: f.p1.value }); f.parentElement.classList.add('sent'); }
+  catch (err) { msg.className = 'form-msg err'; msg.textContent = err.message; }
+});
+</script>
+</body>
+</html>
